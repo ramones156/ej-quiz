@@ -1,0 +1,17 @@
+version: '3'
+services:
+  nestjs:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-nestjs
+    ports:
+      - '3000:3000'
+
+  angular:
+    build:
+      context: ./frontend
+      dockerfile: docker/Dockerfile-angular
+    ports:
+      - '4200:4200'
+    depends_on:
+      - nestjs
