@@ -1,0 +1,13 @@
+<div (submit)="login()" class="m-auto w-full max-w-xs mt-64">
+  <form>
+    <div class="mb-4">
+      <input [(ngModel)]="username" class="input w-full max-w-xs" name="username" placeholder="Username" type="text" />
+    </div>
+    <div class="mb-4">
+      <input [(ngModel)]="password" class="input w-full max-w-xs" name="password" placeholder="Password" type="text" />
+    </div>
+    <div>
+      <button class="btn-primary rounded px-4 py-2 shadow" type="submit">Login</button>
+    </div>
+  </form>
+</div>

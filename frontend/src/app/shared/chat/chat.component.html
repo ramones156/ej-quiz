@@ -1,0 +1,18 @@
+<ng-container *ngIf="!chatService.username">
+  <form class="space-x-4">
+    <input [(ngModel)]="tempUsername" name="username" placeholder="Kies een naam" />
+    <button (click)="chatService.registerUsername(tempUsername)" class="btn-primary px-3 py-1 rounded" type="submit">Sturen</button>
+  </form>
+</ng-container>
+<ng-container *ngIf="chatService.username;">
+  <div>
+    <p *ngFor="let message of messages">
+      {{message.username ?? message.id}}: {{message.message}}
+    </p>
+  </div>
+
+  <form class="space-x-4">
+    <input [(ngModel)]="message" name="message" />
+    <button (click)="sendMessage()" class="btn-primary px-3 py-1 rounded" type="submit">Sturen</button>
+  </form>
+</ng-container>
