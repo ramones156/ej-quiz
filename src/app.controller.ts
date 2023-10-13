@@ -1,12 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Post } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  @Post('/api/login')
+  login() {
+    return { role: 'ROLE_ADMIN' };
+  }
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('/api/logout')
+  logout() {
+    return { message: 'Successfully logged out' };
   }
 }

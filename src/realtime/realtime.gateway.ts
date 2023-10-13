@@ -1,11 +1,12 @@
 import {
-  WebSocketGateway,
-  WebSocketServer,
   OnGatewayConnection,
   OnGatewayDisconnect,
   SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { State } from '../../frontend/src/app/core/models/state.model';
 
 @WebSocketGateway({
   cors: {
@@ -16,31 +17,43 @@ export class RealTimeGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer() server: Server;
+  private activeClients: Map<string, Socket> = new Map<string, Socket>();
+  private usernames: Map<string, string> = new Map<string, string>();
 
-  handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
+  private currentState: State = State.Intro;
+
+  handleConnection(socket: Socket) {
+    console.log(`Client connected: ${socket.id}`);
+    this.activeClients.set(socket.id, socket);
+    this.server.emit('state', this.currentState);
   }
 
-  handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+  handleDisconnect(socket: Socket) {
+    console.log(`Client disconnected: ${socket.id}`);
+
+    this.activeClients.delete(socket.id);
+    this.usernames.delete(socket.id);
+  }
+
+  @SubscribeMessage('registerUsername')
+  handleRegisterUsername(socket: Socket, username: string) {
+    this.activeClients.set(socket.id, socket);
+
+    this.usernames.set(socket.id, username);
+
+    socket.emit('registrationAck', {username: username, message: 'Username registered successfully'});
   }
 
   @SubscribeMessage('chatMessage')
-  handleChatMessage(client: Socket, message: string) {
-    // Handle chat messages
-    this.server.emit('chatMessage', message);
+  handleChatMessage(socket: Socket, message: string) {
+    const id = socket.id;
+    const username = this.usernames.get(id);
+    this.server.emit('chatMessage', { id, username, message });
   }
 
-  @SubscribeMessage('addQuestion')
-  handleAddQuestion(client: Socket, question: string) {
-    // Handle adding questions
-    this.server.emit('newQuestion', question);
-  }
-
-  @SubscribeMessage('videoEvent')
-  handleVideoEvent(client: Socket, data: any) {
-    // Handle video events
-    // You can broadcast these events to all connected clients as needed.
-    console.log(`${client.id} sending video ${data.length}`);
+  @SubscribeMessage('state')
+  handleState(socket: Socket, state: State) {
+    this.currentState = state;
+    this.server.emit('state', this.currentState);
   }
 }

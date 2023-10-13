@@ -1,1 +1,6 @@
-<p>admin-page works!</p>
+<ng-container *ngIf="currentState && ![State.AnswersOpen,State.AnswersClosed].includes(currentState)">
+  <app-chat></app-chat>
+</ng-container>
+<ng-container *ngIf="currentState && [State.AnswersOpen,State.AnswersClosed].includes(currentState)">
+  <app-answer-chat></app-answer-chat>
+</ng-container>
