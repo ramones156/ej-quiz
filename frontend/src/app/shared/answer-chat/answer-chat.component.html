@@ -1,24 +1,13 @@
-<div class="stats bg-primary text-primary-content">
-
-  <div *ngFor="let message of messages.values()" class="stat">
-    <div class="stat-title">{{message.id}}</div>
-    <div class="stat-value">{{message.message}}</div>
-    <div class="stat-actions">
-      <button (click)="message.correct = true;"
-              [disabled]="currentState !== State.AnswersClosed"
-              [ngClass]="message.correct ? 'btn-success':'btn-info'"
-              class="btn btn-sm">Mark correct
+<div class="w-full h-screen flex justify-center items-center">
+  <div class="flex flex-col">
+    <h1 class="text-xl text-semibold mb-2">Typ hier je antwoord:</h1>
+    <form class="space-x-4">
+      <input [(ngModel)]="answer" name="message" />
+      <button (click)="sendAnswer()"
+              [disabled]="currentState !== State.AnswersOpen"
+              class="btn-primary px-3 py-1 rounded"
+              type="submit">Send
       </button>
-    </div>
+    </form>
   </div>
-
 </div>
-
-<form class="space-x-4">
-  <input [(ngModel)]="message" name="message" />
-  <button (click)="sendMessage()"
-          [disabled]="currentState !== State.AnswersOpen"
-          class="btn-primary px-3 py-1 rounded"
-          type="submit">Send
-  </button>
-</form>

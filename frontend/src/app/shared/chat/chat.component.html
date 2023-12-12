@@ -1,18 +1,23 @@
 <ng-container *ngIf="!chatService.username">
   <form class="space-x-4">
     <input [(ngModel)]="tempUsername" name="username" placeholder="Kies een naam" />
-    <button (click)="chatService.registerUsername(tempUsername)" class="btn-primary px-3 py-1 rounded" type="submit">Sturen</button>
+    <button (click)="chatService.registerUsername(tempUsername)" class="btn-primary px-3 py-1 rounded" type="submit">
+      Sturen
+    </button>
   </form>
 </ng-container>
-<ng-container *ngIf="chatService.username;">
-  <div>
-    <p *ngFor="let message of messages">
-      {{message.username ?? message.id}}: {{message.message}}
-    </p>
+<div class="w-80" *ngIf="chatService.username;">
+  <div class="h-screen bg-base-200 rounded">
+    <div class="overflow-y-scroll max-h-full p-2 pb-8">
+      <p *ngFor="let message of messages">
+        {{message.username ?? message.id}}: {{message.message}}
+      </p>
+    </div>
+    <div class="bg-base-100">
+      <form class="space-x-4 fixed bottom-0 flex justify-between">
+        <input class="rounded" [(ngModel)]="message" name="message" />
+        <button (click)="sendMessage()" class="btn-primary px-3 py-1 rounded" type="submit">Sturen</button>
+      </form>
+    </div>
   </div>
-
-  <form class="space-x-4">
-    <input [(ngModel)]="message" name="message" />
-    <button (click)="sendMessage()" class="btn-primary px-3 py-1 rounded" type="submit">Sturen</button>
-  </form>
-</ng-container>
+</div>

@@ -21,8 +21,16 @@ export class ChatService {
     this.socket.emit('chatMessage', message);
   }
 
+  sendAnswer(answer: string) {
+    this.socket.emit('answer', answer);
+  }
+
   listenForChatMessages() {
     return this.socket.fromEvent<ChatMessage>('chatMessage');
+  }
+
+  listenForAnswers() {
+    return this.socket.fromEvent<ChatMessage>('answer');
   }
 
   registerUsername(username: string) {

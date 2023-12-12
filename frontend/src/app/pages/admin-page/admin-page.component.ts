@@ -9,13 +9,24 @@ import { StateService } from '../../core/services/state.service';
 })
 export class AdminPageComponent implements OnInit {
   public currentState?: State;
-  protected readonly State = State;
+  state: State = State.Intro;
+  questionCount = 0;
 
+  protected readonly State = State;
+  protected readonly Object = Object;
   constructor(public stateService: StateService) {}
 
   ngOnInit() {
     this.stateService.currentState$.subscribe((state) => {
       this.currentState = state;
     });
+  }
+
+  setState(state: State) {
+    if ([State.Intro, State.AnswersClosed].includes(this.state) && state === State.QuestionExplanation) {
+      this.questionCount++;
+    }
+    this.state = state;
+    this.stateService.setState(this.state);
   }
 }

@@ -1,6 +1,44 @@
-<ng-container *ngIf="currentState && ![State.AnswersOpen,State.AnswersClosed].includes(currentState)">
-  <app-chat></app-chat>
-</ng-container>
-<ng-container *ngIf="currentState && [State.AnswersOpen,State.AnswersClosed].includes(currentState)">
-  <app-answer-chat></app-answer-chat>
-</ng-container>
+<div class="flex">
+  <div class="mx-8 m-auto prose">
+    <div *ngIf="state == State.Intro">
+      <h1 class="title-1">Verwelkom iedereen in de chat! (:</h1>
+      <button class="btn btn-primary" (click)="setState(State.QuestionExplanation)">Start de quiz!</button>
+    </div>
+    <ng-container *ngIf="state == State.QuestionExplanation">
+      <h1>Vraag {{questionCount}}:</h1>
+      <button class="btn btn-primary" (click)="setState(State.AnswersOpen)">Start de vraag</button>
+    </ng-container>
+    <ng-container *ngIf="state == State.AnswersOpen">
+      <h2>Mensen kunnen nu antwoord geven!</h2>
+      <div class="grid gap-2 grid-cols-2">
+        <button class="btn btn-warning" (click)="setState(State.QuestionExplanation)">Terug naar uitleg</button>
+        <button class="btn btn-primary" (click)="setState(State.AnswersClosed)">Eindig antwoorden</button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="state == State.AnswersClosed">
+      <h2>Antwoorden is niet meer mogelijk! Je kunt de antwoorden nu nakijken</h2>
+      <div class="grid gap-2 grid-cols-3">
+        <button class="btn btn-neutral" (click)="setState(State.Break)">Pauzeer quiz😎</button>
+        <button class="btn btn-primary" (click)="setState(State.QuestionExplanation)">Start nieuwe vraag</button>
+        <button class="btn btn-accent" (click)="setState(State.Scoreboard)">Bekijk scoreboard</button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="state == State.Break">
+      <h1>Ff pauzetje.</h1>
+      <img src="https://i.imgflip.com/6n5guf.png" />
+      <button class="btn btn-primary" (click)="setState(State.QuestionExplanation)">Start nieuwe vraag</button>
+      <button class="btn btn-accent" (click)="setState(State.Scoreboard)">Bekijk scoreboard</button>
+    </ng-container>
+    <ng-container *ngIf="state == State.Scoreboard">
+      <h1>Hier komen de punten te staan</h1>
+    </ng-container>
+  </div>
+  <div>
+    <ng-container *ngIf="currentState && [State.AnswersOpen,State.AnswersClosed].includes(currentState)">
+      <app-responses></app-responses>
+    </ng-container>
+  </div>
+  <div class="ml-auto">
+    <app-chat></app-chat>
+  </div>
+</div>

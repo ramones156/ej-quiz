@@ -1,1 +1,14 @@
-<app-chat></app-chat>
+<div class="flex flex-row">
+  <div class="" *ngIf="currentState && ![State.AnswersOpen].includes(currentState)">
+    <div class="w-80">
+      <app-chat></app-chat>
+    </div>
+  </div>
+  <div *ngIf="currentState && [State.AnswersOpen].includes(currentState)">
+    <app-answer-chat></app-answer-chat>
+  </div>
+  <div class="m-auto" *ngIf="currentState == State.Intro">
+    <img class="h-32"
+      src="https://cdn.discordapp.com/attachments/493842361739116554/1180175887623266434/depositphotos_543643546-stock-photo-shocked-african-american-man-goggled.png?ex=6585b1f2&is=65733cf2&hm=14ecce1ca5928d19d41676a256cf282e7b5d0f075f12ce25067812585da86a8f&" />
+  </div>
+</div>

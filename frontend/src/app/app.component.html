@@ -1,9 +1,4 @@
 <app-navbar></app-navbar>
-
-<!--TODO TEMP-->
-<select [(ngModel)]="state" name="state">
-  <option *ngFor="let state of Object.values(State)" [ngValue]="state"> {{state}}</option>
-</select>
-<button (click)="stateService.setState(state)">Set</button>
-
-<router-outlet></router-outlet>
+<div class="h-screen max-w-screen">
+  <router-outlet></router-outlet>
+</div>

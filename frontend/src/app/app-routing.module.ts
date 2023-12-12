@@ -7,9 +7,9 @@ import { AdminGuard } from './core/guards/admin.guard';
 import { LoginComponent } from './pages/login/login.component';
 
 const routes: Routes = [
+  { path: 'admin', component: AdminPageComponent, canActivate: [AdminGuard] },
   { path: '', component: DefaultPageComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: AdminPageComponent, canActivate: [AdminGuard] },
 ];
 
 @NgModule({

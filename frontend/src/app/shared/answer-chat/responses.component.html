@@ -1,0 +1,14 @@
+<div class="stats space-4 max-w-xl">
+  <div *ngFor="let answer of answers.values()" class="stat bg-primary text-primary-content ">
+    <div class="text-muted">{{answer.username}}</div>
+    <p class="stat-value break-all">{{answer.message}}</p>
+    <div class="stat-actions">
+      <button (click)="toggleValidAnswer(answer)"
+              [disabled]="currentState !== State.AnswersClosed"
+              [ngClass]="answer.correct ? 'btn-success':'btn-error'"
+              class="btn btn-sm">
+        {{answer.correct ? '✓':'x'}}
+      </button>
+    </div>
+  </div>
+</div>

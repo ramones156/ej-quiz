@@ -44,6 +44,13 @@ export class RealTimeGateway
     socket.emit('registrationAck', {username: username, message: 'Username registered successfully'});
   }
 
+  @SubscribeMessage('answer')
+  handleAnswer(socket: Socket, answer: string) {
+    const id = socket.id;
+    const username = this.usernames.get(id);
+    this.server.emit('answer', { id, username, message: answer });
+  }
+
   @SubscribeMessage('chatMessage')
   handleChatMessage(socket: Socket, message: string) {
     const id = socket.id;

@@ -15,14 +15,7 @@ import { AuthStorageService } from '../services/auth-storage.service';
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate, CanActivateChild {
-  private router: Router;
-
-  constructor(
-    private authStorageService: AuthStorageService,
-    router: Router,
-  ) {
-    this.router = router;
-  }
+  constructor(private authStorageService: AuthStorageService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -48,16 +41,6 @@ export class AdminGuard implements CanActivate, CanActivateChild {
   }
 
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
-    if (this.authStorageService.isAdmin()) {
-      const userRole = this.authStorageService.getRole();
-      if (userRole !== 'ROLE_ADMIN') {
-        this.router.navigate(['/']);
-        return false;
-      }
-      return true;
-    }
-
-    this.router.navigate(['/']);
-    return false;
+    return this.authStorageService.isAdmin();
   }
 }

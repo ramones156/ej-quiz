@@ -8,9 +8,4 @@ import { StateService } from './core/services/state.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  state: State = State.Intro;
-  protected readonly Object = Object;
-  protected readonly State = State;
-
-  constructor(public stateService: StateService) {}
 }
